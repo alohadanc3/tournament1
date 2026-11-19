@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Список турнірів</title>
+</head>
+<body>
+    <h1>Усі доступні турніри</h1>
+    <a href="{% url 'create_tournament' %}" style="display: inline-block; margin-bottom: 20px; font-weight: bold;">+ Створити свій турнір</a>
+
+    {% for tournament in tournaments %}
+        <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
+            <h2>{{ tournament.title }}</h2>
+            <p>{{ tournament.description }}</p>
+            <p><strong>Дата проведення:</strong> {{ tournament.date }}</p>
+
+            <!-- Форма для подачі заявки -->
+            <form action="{% url 'register_for_tournament' tournament.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" style="background-color: #007bff; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">
+                    Подати заявку на участь
+                </button>
+            </form>
+        </div>
+    {% empty %}
+        <p>Турнірів поки немає. Будьте першим, хто створить турнір!</p>
+    {% endfor %}
+</body>
+</html>
